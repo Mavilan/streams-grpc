@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package mavilan.myprotos.calculus;
+
+option java_multiple_files = true;
+option java_package = "com.mavilan.grpc.calculator";
+option java_outer_classname = "CalculatorProtoClass";
+
+message SumRequest {
+    int32 first_number = 1;
+    int32 second_number = 2;
+}
+message NumberMessage {
+    int32 number = 1;
+}
+
+message PrimeResponse {
+    uint32 prime = 1;
+}
+
+message AverageResponse {
+    double average = 1;
+}
+
+message SqrtResponse {
+    double sqrt = 1;
+}
+
+service CalculatorService {
+    rpc Sum(SumRequest) returns (NumberMessage);
+    rpc Primes(NumberMessage) returns (stream PrimeResponse);
+    rpc Average(stream NumberMessage) returns (AverageResponse);
+    rpc Max(stream NumberMessage) returns (stream NumberMessage);
+
+    //returns a Status.INVALID_ARGUMENT if the number is negative
+    rpc Sqrt(NumberMessage) returns (SqrtResponse);
+}
